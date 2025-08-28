@@ -2,6 +2,19 @@
 
 import { useState } from "react";
 import Reels, { Card } from "./reels/Reels";
+// 1️⃣ import 구문들 위나 아래
+import { useState } from "react";
+
+// 2️⃣ fetchRecommendations 함수 붙여넣기
+async function fetchRecommendations(query: string) {
+  const res = await fetch("/api/recommend", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query }),
+  });
+  const data = await res.json();
+  return data.recommendations;
+}
 
 export default function MainPage() {
   const cards: Card[] = [

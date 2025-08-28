@@ -1,0 +1,20 @@
+import json
+import numpy as np
+from sentence_transformers import SentenceTransformer
+
+# Load the pre-trained model
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
+# Load card data
+with open("../data/cards.json", "r", encoding="utf-8") as f:
+    cards = json.load(f)
+
+# Combine description + topics for each card
+texts = [c["description"] + " " + " ".join(c["topics"]) for c in cards]
+
+# Generate embeddings
+embeddings = model.encode(texts, convert_to_numpy=True)
+
+# Save embeddings to file
+np.save("../data/embeddings.npy", embeddings)
+print("Embeddings generated and saved successfully!")
